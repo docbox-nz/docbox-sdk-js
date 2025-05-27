@@ -1,4 +1,4 @@
-import { DocboxFile } from '../api/docboxFile';
+import { DocFile } from './file';
 import { DocFolder, FolderPathSegment } from './folder';
 import { DocLink } from './link';
 import { DocboxItemId, DocumentBoxScope, FolderId, UserId } from './shared';
@@ -14,7 +14,7 @@ export enum SearchResultItemType {
 
 // Underlying data for the search result
 export type DocboxSearchResultData =
-  | ({ type: SearchResultItemType.FILE } & DocboxFile)
+  | ({ type: SearchResultItemType.FILE } & DocFile)
   | ({ type: SearchResultItemType.FOLDER } & DocFolder)
   | ({ type: SearchResultItemType.LINK } & DocLink);
 

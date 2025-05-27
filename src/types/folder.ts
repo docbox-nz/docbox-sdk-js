@@ -1,4 +1,4 @@
-import { DocboxFile } from '../api/docboxFile';
+import { DocFile } from './file';
 import { DocLink } from './link';
 import {
   ISODate,
@@ -144,7 +144,7 @@ export interface ResolvedFolder {
   /**
    * Files contained within the folder
    */
-  files: DocboxFile[];
+  files: DocFile[];
 
   /**
    * Links contained within the folder
