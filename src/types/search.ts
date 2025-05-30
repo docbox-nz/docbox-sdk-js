@@ -78,6 +78,21 @@ export type DocboxAdminSearchRequest = DocboxSearchRequest & {
   scopes: DocumentBoxScope[];
 };
 
+export interface DocboxFileSearchRequest {
+  /**
+   * Search query to search for
+   */
+  query?: string | null;
+  /**
+   * Number of results to skip
+   */
+  offset?: number;
+  /**
+   * Maximum number of results to return
+   */
+  limit?: number;
+}
+
 export interface DocboxSearchRequest {
   /**
    * Search query to search for
@@ -121,6 +136,8 @@ export interface DocboxSearchRequest {
    * Filter results to only results for a specific item
    *
    * (i.e searching full text within a specific file)
+   *
+   * @deprecated Use dedicated file search API instead
    */
   item_id?: DocboxItemId | null;
   /**
@@ -137,6 +154,8 @@ export interface DocboxSearchRequest {
   max_pages?: number;
   /**
    * Number of pages of content results to skip
+   *
+   * @deprecated Use dedicated file search API instead
    */
   pages_offset?: number;
 }

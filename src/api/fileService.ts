@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import {
+  DocboxFileSearchRequest,
+  DocboxSearchResponse,
   DocumentBoxScope,
   FileId,
   FileResponse,
@@ -327,6 +329,22 @@ export class FileService {
    */
   get(scope: DocumentBoxScope, file_id: FileId): Promise<FileResponse> {
     return this.client.httpGet(`box/${scope}/file/${file_id}`);
+  }
+
+  /**
+   * Search within the contents of a file
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file
+   * @param request The search request
+   * @returns The full file details
+   */
+  search(
+    scope: DocumentBoxScope,
+    file_id: FileId,
+    request: DocboxFileSearchRequest
+  ): Promise<DocboxSearchResponse> {
+    return this.client.httpPost(`box/${scope}/file/${file_id}/search`, request);
   }
 
   /**
