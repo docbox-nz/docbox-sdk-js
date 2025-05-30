@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import {
   DocboxFileSearchRequest,
-  DocboxSearchResponse,
+  DocboxFileSearchResponse,
   DocumentBoxScope,
   FileId,
   FileResponse,
@@ -343,7 +343,7 @@ export class FileService {
     scope: DocumentBoxScope,
     file_id: FileId,
     request: DocboxFileSearchRequest
-  ): Promise<DocboxSearchResponse> {
+  ): Promise<DocboxFileSearchResponse> {
     return this.client.httpPost(`box/${scope}/file/${file_id}/search`, request);
   }
 

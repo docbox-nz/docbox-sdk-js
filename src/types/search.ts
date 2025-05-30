@@ -51,6 +51,18 @@ export interface DocboxSearchResponse {
   results: DocboxSearchResult[];
 }
 
+export interface DocboxFileSearchResponse {
+  /**
+   * Total number of hits
+   */
+  total_hits: number;
+
+  /**
+   * Results from the search
+   */
+  results: PageMatch[];
+}
+
 export interface DocboxSearchResponseAdmin {
   /**
    * Total number of hits
