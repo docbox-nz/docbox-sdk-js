@@ -80,4 +80,8 @@ export class DocboxClient {
     const { data: responseData } = await this.client.delete<T>(url, config);
     return responseData;
   }
+
+  toJSON() {
+    return { url: this.client.getUri() };
+  }
 }
