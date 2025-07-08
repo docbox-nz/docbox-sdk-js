@@ -400,3 +400,10 @@ export interface UploadTaskResponse {
   task_id: string;
   created_at: string;
 }
+
+export interface PresignedDownloadResponse {
+  method: string;
+  uri: string;
+  headers: Partial<Record<string, string>>;
+  expires_at: string;
+}

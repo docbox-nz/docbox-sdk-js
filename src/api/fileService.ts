@@ -18,6 +18,7 @@ import {
   DocFile,
   DocFileEditHistory,
   DocGeneratedFile as GeneratedFile,
+  PresignedDownloadResponse,
   PresignedUploadFileRequest,
   PresignedUploadOptions,
   PresignedUploadResponse,
@@ -398,6 +399,72 @@ export class FileService {
   }
 
   /**
+   * Creates a presigned URL for the requested file
+   *
+   * Requires docbox >=0.2.0
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file to retrieve
+   * @param expires_at Time in seconds till the link expires
+   * @returns The raw contents of the file
+   */
+  createRawPresigned(
+    scope: DocumentBoxScope,
+    file_id: FileId,
+    expires_at: number = 900
+  ): Promise<PresignedDownloadResponse> {
+    return this.client.httpPost(`box/${scope}/file/${file_id}/raw-presigned`, {
+      expires_at,
+    });
+  }
+
+  /**
+   * Gets the raw file contents of the provided file
+   *
+   * Requires docbox >=0.2.0
+   *
+   * On node this returns an {@link ArrayBuffer} not a blob
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file to retrieve
+   * @param expires_at Time in seconds till the link expires
+   * @returns The raw contents of the file
+   */
+  async rawPresigned(
+    scope: DocumentBoxScope,
+    file_id: FileId,
+    expires_at: number = 900
+  ): Promise<Blob> {
+    const { uri } = await this.createRawPresigned(scope, file_id, expires_at);
+    return this.client.httpPost(uri, {
+      responseType: typeof window === 'undefined' ? 'arraybuffer' : 'blob',
+    });
+  }
+  /**
+   * Gets the raw file contents of the provided file
+   *
+   * Requires docbox >=0.2.0
+   *
+   * This function is the same as {@link FileService.raw} just
+   * it has the correct return type for Node
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file to retrieve
+   * @param expires_at Time in seconds till the link expires
+   * @returns The raw contents of the file
+   */
+  async rawPresignedNode(
+    scope: DocumentBoxScope,
+    file_id: FileId,
+    expires_at: number = 900
+  ): Promise<Blob> {
+    const { uri } = await this.createRawPresigned(scope, file_id, expires_at);
+    return this.client.httpPost(uri, {
+      responseType: 'arraybuffer',
+    });
+  }
+
+  /**
    * Gets the raw file contents of the provided file
    *
    * This function is the same as {@link FileService.raw} just
@@ -484,6 +551,80 @@ export class FileService {
   }
 
   /**
+   * Create a presigned URL for the requested generated file
+   *
+   * Requires docbox >=0.2.0
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file to query
+   * @param type Type of the generated file
+   * @param expires_at Time in seconds till the link expires
+   * @returns The Blob/ArrayBuffer content of the file (Blob within a browser, ArrayBuffer on node)
+   */
+  createGeneratedRawPresigned(
+    scope: DocumentBoxScope,
+    file_id: FileId,
+    type: GeneratedFileType,
+    expires_at: number = 900
+  ): Promise<PresignedDownloadResponse> {
+    return this.client.httpPost(`box/${scope}/file/${file_id}/generated/${type}/raw-presigned`, {
+      expires_at,
+    });
+  }
+
+  /**
+   * Gets a generated file raw contents using a presigned URL
+   *
+   * Requires docbox >=0.2.0
+   *
+   * On node this returns an {@link ArrayBuffer} not a blob
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file to query
+   * @param type Type of the generated file
+   * @param expires_at Time in seconds till the link expires
+   * @returns The Blob/ArrayBuffer content of the file (Blob within a browser, ArrayBuffer on node)
+   */
+  async generatedRawPresigned(
+    scope: DocumentBoxScope,
+    file_id: FileId,
+    type: GeneratedFileType,
+    expires_at: number = 900
+  ): Promise<Blob> {
+    const { uri } = await this.createGeneratedRawPresigned(scope, file_id, type, expires_at);
+    return this.client.httpGet(uri, {
+      responseType: typeof window === 'undefined' ? 'arraybuffer' : 'blob',
+    });
+  }
+
+  /**
+   * Gets a generated file raw contents using a presigned URL
+   *
+   * Requires docbox >=0.2.0
+   *
+   * This function is the same as {@link FileService.generatedRawPresigned} just
+   * it has the correct return type for Node and will only return an
+   * ArrayBuffer
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file to query
+   * @param type Type of the generated file
+   * @param expires_at Time in seconds till the link expires
+   * @returns The Blob/ArrayBuffer content of the file (Blob within a browser, ArrayBuffer on node)
+   */
+  async generatedRawPresignedNode(
+    scope: DocumentBoxScope,
+    file_id: FileId,
+    type: GeneratedFileType,
+    expires_at: number = 900
+  ): Promise<Blob> {
+    const { uri } = await this.createGeneratedRawPresigned(scope, file_id, type, expires_at);
+    return this.client.httpGet(uri, {
+      responseType: 'arraybuffer',
+    });
+  }
+
+  /**
    * Gets a generated file raw contents
    *
    * This function is the same as {@link FileService.generatedRaw} just
@@ -533,6 +674,51 @@ export class FileService {
    */
   generatedJson(scope: DocumentBoxScope, file_id: FileId, type: GeneratedFileType): Promise<any> {
     return this.client.httpGet(this.generatedRawURL(scope, file_id, type), {
+      responseType: 'json',
+    });
+  }
+
+  /**
+   * Gets a generated file raw contents as text using a presigned download
+   *
+   * Requires docbox >=0.2.0
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file to query
+   * @param type Type of the generated file
+   * @param expires_at Time in seconds till the link expires
+   * @returns The Blob/ArrayBuffer content of the file (Blob within a browser, ArrayBuffer on node)
+   */
+  async generatedTextPresigned(
+    scope: DocumentBoxScope,
+    file_id: FileId,
+    type: GeneratedFileType,
+    expires_at: number = 900
+  ): Promise<string> {
+    const { uri } = await this.createGeneratedRawPresigned(scope, file_id, type, expires_at);
+    return this.client.httpGet(uri, {
+      responseType: 'text',
+    });
+  }
+  /**
+   * Gets a generated file raw contents as JSON using a presigned download
+   *
+   * Requires docbox >=0.2.0
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file to query
+   * @param type Type of the generated file
+   * @param expires_at Time in seconds till the link expires
+   * @returns The Blob/ArrayBuffer content of the file (Blob within a browser, ArrayBuffer on node)
+   */
+  async generatedJsonPresigned(
+    scope: DocumentBoxScope,
+    file_id: FileId,
+    type: GeneratedFileType,
+    expires_at: number = 900
+  ): Promise<any> {
+    const { uri } = await this.createGeneratedRawPresigned(scope, file_id, type, expires_at);
+    return this.client.httpGet(uri, {
       responseType: 'json',
     });
   }
