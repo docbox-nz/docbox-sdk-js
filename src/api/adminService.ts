@@ -1,4 +1,5 @@
 import { DocboxAdminSearchRequest, DocboxSearchResponseAdmin } from '../types';
+import { AdminDocumentBoxesRequest, AdminDocumentBoxesResponse } from '../types/admin';
 import { DocboxClient } from './client';
 
 export class AdminService {
@@ -17,7 +18,31 @@ export class AdminService {
    * @param data Search request data
    * @returns The search results
    */
-  async search(data: DocboxAdminSearchRequest): Promise<DocboxSearchResponseAdmin> {
-    return await this.client.httpPost(`admin/search`, data);
+  search(data: DocboxAdminSearchRequest): Promise<DocboxSearchResponseAdmin> {
+    return this.client.httpPost(`admin/search`, data);
+  }
+
+  /**
+   * Query document boxes within the tenant
+   *
+   * @param data Query data
+   * @returns The boxes results
+   */
+  documentBoxes(data: AdminDocumentBoxesRequest): Promise<AdminDocumentBoxesResponse> {
+    return this.client.httpPost('admin/boxes', data);
+  }
+
+  /**
+   * Flush the database cache
+   */
+  flushDatabasePoolCache() {
+    return this.client.httpPost('admin/flush-db-cache');
+  }
+
+  /**
+   * Flush the tenant cache
+   */
+  flushTenantCache() {
+    return this.client.httpPost('admin/flush-tenant-cache');
   }
 }
