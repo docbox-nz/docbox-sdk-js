@@ -457,7 +457,7 @@ export class FileService {
     scope: DocumentBoxScope,
     file_id: FileId,
     expires_at: number = 900
-  ): Promise<Blob> {
+  ): Promise<ArrayBuffer> {
     const { uri } = await this.createRawPresigned(scope, file_id, expires_at);
     return this.client.httpPost(uri, {
       responseType: 'arraybuffer',
@@ -617,7 +617,7 @@ export class FileService {
     file_id: FileId,
     type: GeneratedFileType,
     expires_at: number = 900
-  ): Promise<Blob> {
+  ): Promise<ArrayBuffer> {
     const { uri } = await this.createGeneratedRawPresigned(scope, file_id, type, expires_at);
     return this.client.httpGet(uri, {
       responseType: 'arraybuffer',
