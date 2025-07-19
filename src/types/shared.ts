@@ -53,6 +53,7 @@ export enum EditHistoryType {
   MoveToFolder = 'MoveToFolder',
   Rename = 'Rename',
   LinkValue = 'LinkValue',
+  ChangePinned = 'ChangePinned',
 }
 
 /**
@@ -103,4 +104,20 @@ export interface EditHistoryMetadataLinkValue {
    * New URL value of the link
    */
   new_value: string;
+}
+
+/**
+ * Edit history for changing the pinned state of an item
+ *
+ * Can be seen on: File, Folders, and Links
+ */
+export interface EditHistoryMetadataChangePinned {
+  /**
+   * Previous pinned state
+   */
+  previous_value: boolean;
+  /**
+   * New pinned state
+   */
+  new_value: boolean;
 }

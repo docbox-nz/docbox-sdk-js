@@ -1,5 +1,6 @@
 import {
   DocumentBoxScope,
+  EditHistoryMetadataChangePinned,
   EditHistoryMetadataMoveToFolder,
   EditHistoryMetadataRename,
   EditHistoryType,
@@ -240,6 +241,10 @@ export interface DocFile {
    */
   encrypted: boolean;
   /**
+   * Whether the file is pinned
+   */
+  pinned?: boolean;
+  /**
    * Timestamp of when the file was created
    */
   created_at: ISODate;
@@ -292,7 +297,8 @@ export interface DocFileEditHistoryBase {
 
 export type DocFileEditHistoryData =
   | { type: EditHistoryType.MoveToFolder; metadata: EditHistoryMetadataMoveToFolder }
-  | { type: EditHistoryType.Rename; metadata: EditHistoryMetadataRename };
+  | { type: EditHistoryType.Rename; metadata: EditHistoryMetadataRename }
+  | { type: EditHistoryType.ChangePinned; metadata: EditHistoryMetadataChangePinned };
 
 export type DocFileEditHistory = DocFileEditHistoryBase & DocFileEditHistoryData;
 
@@ -379,6 +385,10 @@ export interface UpdateFile {
    * leave undefined or specify null to not update this field
    */
   folder_id?: FolderId | null;
+  /**
+   * Optionally update the file pinned state
+   */
+  pinned?: boolean | null;
 }
 
 export interface DocboxTask {

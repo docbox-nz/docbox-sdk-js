@@ -1,4 +1,5 @@
 import {
+  EditHistoryMetadataChangePinned,
   EditHistoryMetadataLinkValue,
   EditHistoryMetadataMoveToFolder,
   EditHistoryMetadataRename,
@@ -25,6 +26,10 @@ export interface DocLink {
    * URL value of the link
    */
   value: string;
+  /**
+   * Whether the link is pinned
+   */
+  pinned?: boolean;
   /**
    * ID of the folder this link is stored within.
    */
@@ -78,7 +83,8 @@ export interface DocLinkEditHistoryBase {
 export type DocLinkEditHistoryData =
   | { type: EditHistoryType.MoveToFolder; metadata: EditHistoryMetadataMoveToFolder }
   | { type: EditHistoryType.Rename; metadata: EditHistoryMetadataRename }
-  | { type: EditHistoryType.LinkValue; metadata: EditHistoryMetadataLinkValue };
+  | { type: EditHistoryType.LinkValue; metadata: EditHistoryMetadataLinkValue }
+  | { type: EditHistoryType.ChangePinned; metadata: EditHistoryMetadataChangePinned };
 
 export type DocLinkEditHistory = DocLinkEditHistoryBase & DocLinkEditHistoryData;
 
@@ -121,6 +127,10 @@ export interface CreateLink {
    * ID of the folder to create the link within
    */
   folder_id: FolderId;
+  /**
+   * Whether the link is pinned
+   */
+  pinned?: boolean;
 }
 
 export interface UpdateLink {
@@ -142,4 +152,8 @@ export interface UpdateLink {
    * leave undefined or specify null to not update this field
    */
   value?: string | null;
+  /**
+   * Whether the link is pinned
+   */
+  pinned?: boolean | null;
 }

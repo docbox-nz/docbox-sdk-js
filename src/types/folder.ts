@@ -6,6 +6,7 @@ import {
   EditHistoryType,
   EditHistoryMetadataRename,
   EditHistoryMetadataMoveToFolder,
+  EditHistoryMetadataChangePinned,
 } from './shared';
 import { User } from './user';
 
@@ -21,6 +22,10 @@ export interface DocFolder {
    * Name of the folder
    */
   name: string;
+  /**
+   * Whether the folder is pinned
+   */
+  pinned?: boolean;
   /**
    * ID of the folder this folder is contained within. This
    * is null if the folder is the root folder of a document
@@ -75,7 +80,8 @@ export interface DocFolderEditHistoryBase {
 
 export type DocFolderEditHistoryData =
   | { type: EditHistoryType.MoveToFolder; metadata: EditHistoryMetadataMoveToFolder }
-  | { type: EditHistoryType.Rename; metadata: EditHistoryMetadataRename };
+  | { type: EditHistoryType.Rename; metadata: EditHistoryMetadataRename }
+  | { type: EditHistoryType.ChangePinned; metadata: EditHistoryMetadataChangePinned };
 
 export type DocFolderEditHistory = DocFolderEditHistoryBase & DocFolderEditHistoryData;
 
@@ -91,6 +97,10 @@ export interface CreateFolder {
    * ID of the parent folder to create the folder within.
    */
   folder_id: FolderId;
+  /**
+   * Whether the folder is pinned
+   */
+  pinned?: boolean;
 }
 
 /**
@@ -110,6 +120,11 @@ export interface UpdateFolder {
    * leave undefined or specify null to not update this field
    */
   folder_id?: FolderId | null;
+
+  /**
+   * Optionally update the folder pinned state
+   */
+  pinned?: boolean | null;
 }
 
 /**
