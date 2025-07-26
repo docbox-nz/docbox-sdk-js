@@ -127,10 +127,6 @@ export interface CreateLink {
    * ID of the folder to create the link within
    */
   folder_id: FolderId;
-  /**
-   * Whether the link is pinned
-   */
-  pinned?: boolean;
 }
 
 export interface UpdateLink {

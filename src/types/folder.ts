@@ -97,10 +97,6 @@ export interface CreateFolder {
    * ID of the parent folder to create the folder within.
    */
   folder_id: FolderId;
-  /**
-   * Whether the folder is pinned
-   */
-  pinned?: boolean;
 }
 
 /**
