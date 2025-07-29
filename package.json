@@ -1,6 +1,6 @@
 {
   "name": "@docbox-nz/docbox-sdk",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
@@ -28,7 +28,7 @@
   "license": "MIT",
   "description": "Docbox client SDK",
   "peerDependencies": {
-    "axios": "^1.7.4"
+    "axios": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
     "web-file-polyfill": "^1.0.4",
@@ -41,7 +41,7 @@
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
-    "axios": "^1.7.4",
+    "axios": "^1.8.4",
     "eslint": "^8.55.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
