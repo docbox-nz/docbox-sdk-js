@@ -35,6 +35,14 @@ export type DocboxSearchResult = {
    * Total number of search "hits"
    */
   total_hits: number;
+  /**
+   * Whether the file name was a hit for search
+   */
+  name_match: boolean;
+  /**
+   * Whether the content was a hit for search
+   */
+  content_match: boolean;
 } & DocboxSearchResultData;
 
 export type DocboxSearchResultAdmin = DocboxSearchResult & { scope: DocumentBoxScope };
