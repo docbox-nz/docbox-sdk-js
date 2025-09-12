@@ -419,7 +419,8 @@ export class FileService {
   }
 
   /**
-   * Gets the raw file contents of the provided file
+   * Gets the raw file contents of the provided file downloading
+   * using a presigned URL
    *
    * Requires docbox >=0.2.0
    *
@@ -436,16 +437,18 @@ export class FileService {
     expires_at: number = 900
   ): Promise<Blob> {
     const { uri } = await this.createRawPresigned(scope, file_id, expires_at);
-    return this.client.httpPost(uri, {
+    return this.client.httpGet(uri, {
       responseType: typeof window === 'undefined' ? 'arraybuffer' : 'blob',
     });
   }
+
   /**
-   * Gets the raw file contents of the provided file
+   * Gets the raw file contents of the provided file downloading
+   * using a presigned URL
    *
    * Requires docbox >=0.2.0
    *
-   * This function is the same as {@link FileService.raw} just
+   * This function is the same as {@link FileService.rawPresigned} just
    * it has the correct return type for Node
    *
    * @param scope Scope the file resides within
@@ -459,7 +462,7 @@ export class FileService {
     expires_at: number = 900
   ): Promise<ArrayBuffer> {
     const { uri } = await this.createRawPresigned(scope, file_id, expires_at);
-    return this.client.httpPost(uri, {
+    return this.client.httpGet(uri, {
       responseType: 'arraybuffer',
     });
   }
