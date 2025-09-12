@@ -62,7 +62,10 @@ export class BoxService {
   }
 
   /**
-   * Delete a specific document vox
+   * Delete a specific document box
+   *
+   * If the document box did not exist this is silently handled as
+   * a success case
    *
    * @param scope Scope of the document box to delete
    * @returns
