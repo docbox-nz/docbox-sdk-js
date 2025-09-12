@@ -140,7 +140,7 @@ export class FileService {
     }
 
     if (request.parent_id) {
-      data.append('fixed_id', request.parent_id);
+      data.append('parent_id', request.parent_id);
     }
 
     if (request.processing_config) {
