@@ -7,6 +7,7 @@ import {
   DocumentBoxStats,
 } from '../types';
 import { DocboxClient } from './client';
+import { DocumentBoxNotFoundError } from './error';
 
 export class BoxService {
   private client: DocboxClient;
@@ -29,9 +30,29 @@ export class BoxService {
       return await this.client.httpGet(`box/${scope}`);
     } catch (err) {
       // Handle a document box not being created yet
-      if (createIfMissing && isAxiosError(err) && err.response?.status === 404) {
-        // Attempt to create the document box
-        return this.create(scope, false);
+      if (isAxiosError(err) && err.response?.status === 404) {
+        if (createIfMissing) {
+          // Attempt to create the document box
+          return this.create(scope, false);
+        }
+
+        throw new DocumentBoxNotFoundError();
+      }
+
+      throw err;
+    }
+  }
+  /**
+   * Get a document box for a scope, return null if one was not found
+   *
+   * @param scope Scope of the document box to get
+   */
+  async getOrNull(scope: DocumentBoxScope): Promise<DocumentBoxResponse | null> {
+    try {
+      return await this.get(scope);
+    } catch (err) {
+      if (err instanceof DocumentBoxNotFoundError) {
+        return null;
       }
 
       throw err;
@@ -68,15 +89,20 @@ export class BoxService {
    * a success case
    *
    * @param scope Scope of the document box to delete
+   * @param allowMissing Quietly ignore the document box not existing
    * @returns
    */
-  async delete(scope: DocumentBoxScope): Promise<any> {
+  async delete(scope: DocumentBoxScope, allowMissing: boolean = true): Promise<any> {
     try {
       return this.client.httpDelete(`box/${scope}`);
     } catch (err) {
       // Handle document box never existed
       if (isAxiosError(err) && err.response?.status === 404) {
-        return {};
+        if (allowMissing) {
+          return {};
+        }
+
+        throw new DocumentBoxNotFoundError();
       }
 
       throw err;

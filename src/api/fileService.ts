@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, isAxiosError } from 'axios';
 import {
   DocboxFileSearchRequest,
   DocboxFileSearchResponse,
@@ -26,6 +26,7 @@ import {
 } from '../types/file';
 
 import 'formdata-polyfill';
+import { FileNotFoundError } from './error';
 
 export class FileService {
   private client: DocboxClient;
@@ -328,8 +329,37 @@ export class FileService {
    * @param file_id ID of the file
    * @returns The full file details
    */
-  get(scope: DocumentBoxScope, file_id: FileId): Promise<FileResponse> {
-    return this.client.httpGet(`box/${scope}/file/${file_id}`);
+  async get(scope: DocumentBoxScope, file_id: FileId): Promise<FileResponse> {
+    try {
+      return await this.client.httpGet(`box/${scope}/file/${file_id}`);
+    } catch (err) {
+      // Handle a document box not being created yet
+      if (isAxiosError(err) && err.response?.status === 404) {
+        throw new FileNotFoundError();
+      }
+
+      throw err;
+    }
+  }
+
+  /**
+   * Request the details of a file using its ID and scope
+   * returns null if the file is not found
+   *
+   * @param scope Scope the file resides within
+   * @param file_id ID of the file
+   * @returns The full file details
+   */
+  async getOrNull(scope: DocumentBoxScope, file_id: FileId): Promise<FileResponse | null> {
+    try {
+      return await this.get(scope, file_id);
+    } catch (err) {
+      if (err instanceof FileNotFoundError) {
+        return null;
+      }
+
+      throw err;
+    }
   }
 
   /**

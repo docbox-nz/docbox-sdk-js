@@ -1,3 +1,4 @@
+import { isAxiosError } from 'axios';
 import {
   CreateFolder,
   DocFolderEditHistory,
@@ -7,6 +8,7 @@ import {
   UpdateFolder,
 } from '../types';
 import { DocboxClient } from './client';
+import { FolderNotFoundError } from './error';
 
 export class FolderService {
   private client: DocboxClient;
@@ -33,8 +35,35 @@ export class FolderService {
    * @param folder_id ID of the folder to request
    * @returns The resolved folder
    */
-  get(scope: DocumentBoxScope, folder_id: FolderId): Promise<FolderResponse> {
-    return this.client.httpGet(`box/${scope}/folder/${folder_id}`);
+  async get(scope: DocumentBoxScope, folder_id: FolderId): Promise<FolderResponse> {
+    try {
+      return this.client.httpGet(`box/${scope}/folder/${folder_id}`);
+    } catch (err) {
+      if (isAxiosError(err) && err.response?.status === 404) {
+        throw new FolderNotFoundError();
+      }
+
+      throw err;
+    }
+  }
+
+  /**
+   * Loads a specific folder returning null if the folder does not exist
+   *
+   * @param scope Scope the folder resides within
+   * @param folder_id ID of the folder to request
+   * @returns The resolved folder
+   */
+  async getOrNull(scope: DocumentBoxScope, folder_id: FolderId): Promise<FolderResponse | null> {
+    try {
+      return await this.get(scope, folder_id);
+    } catch (err) {
+      if (err instanceof FolderNotFoundError) {
+        return null;
+      }
+
+      throw err;
+    }
   }
 
   /**

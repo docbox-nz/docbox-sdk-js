@@ -1,3 +1,4 @@
+import { isAxiosError } from 'axios';
 import {
   CreateLink,
   DocumentBoxScope,
@@ -8,6 +9,7 @@ import {
   DocLink,
 } from '../types';
 import { DocboxClient } from './client';
+import { LinkNotFoundError } from './error';
 
 export class LinkService {
   private client: DocboxClient;
@@ -56,8 +58,35 @@ export class LinkService {
    * @param link_id ID of the link to request
    * @returns The requested link
    */
-  get(scope: DocumentBoxScope, link_id: LinkId): Promise<DocLink> {
-    return this.client.httpGet(`box/${scope}/link/${link_id}`);
+  async get(scope: DocumentBoxScope, link_id: LinkId): Promise<DocLink> {
+    try {
+      return await this.client.httpGet(`box/${scope}/link/${link_id}`);
+    } catch (err) {
+      if (isAxiosError(err) && err.response?.status === 404) {
+        throw new LinkNotFoundError();
+      }
+
+      throw err;
+    }
+  }
+
+  /**
+   * Request a specific link by ID returning null if not found
+   *
+   * @param scope Scope the link resides within
+   * @param link_id ID of the link to request
+   * @returns The requested link
+   */
+  async getOrNull(scope: DocumentBoxScope, link_id: LinkId): Promise<DocLink | null> {
+    try {
+      return await this.get(scope, link_id);
+    } catch (err) {
+      if (err instanceof LinkNotFoundError) {
+        return null;
+      }
+
+      throw err;
+    }
   }
 
   /**
