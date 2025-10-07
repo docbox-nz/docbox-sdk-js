@@ -2,6 +2,12 @@ import { DocumentBox } from './box';
 
 export interface AdminDocumentBoxesRequest {
   /**
+   * Optional query to search document boxes with
+   *
+   * (Use * or % for wildcard matching)
+   */
+  query?: string | null;
+  /**
    * Number of items to include in the response
    */
   size: number;
@@ -13,4 +19,9 @@ export interface AdminDocumentBoxesRequest {
 
 export interface AdminDocumentBoxesResponse {
   results: DocumentBox[];
+
+  /**
+   * Total number of document boxes (or total matching results for queries)
+   */
+  total?: number;
 }
