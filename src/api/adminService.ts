@@ -44,7 +44,7 @@ export class AdminService {
    * @returns The stats
    */
   tenantStats(): Promise<TenantStatsResponse> {
-    return this.client.httpPost('admin/tenant-stats');
+    return this.client.httpGet('admin/tenant-stats');
   }
 
   /**

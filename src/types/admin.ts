@@ -28,6 +28,18 @@ export interface AdminDocumentBoxesResponse {
 
 export interface TenantStatsResponse {
   /**
+   * Total number of files within the tenant
+   */
+  total_files: number;
+  /**
+   * Total number of links within the tenant
+   */
+  total_links: number;
+  /**
+   * Total number of folders within the tenant
+   */
+  total_folders: number;
+  /**
    * Size of all files within the tenant
    */
   file_size: number;
