@@ -25,3 +25,10 @@ export interface AdminDocumentBoxesResponse {
    */
   total?: number;
 }
+
+export interface TenantStatsResponse {
+  /**
+   * Size of all files within the tenant
+   */
+  file_size: number;
+}

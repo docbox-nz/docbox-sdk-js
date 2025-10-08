@@ -50,6 +50,12 @@ export interface DocumentBoxStats {
    * Total number of folders within the document box
    */
   total_folders: number;
+  /**
+   * Total size of all files within the document box
+   *
+   * (Available as of v0.4.0)
+   */
+  file_size?: number;
 }
 
 export interface DocumentBox {

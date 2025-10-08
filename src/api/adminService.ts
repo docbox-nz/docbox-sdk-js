@@ -1,5 +1,9 @@
 import { DocboxAdminSearchRequest, DocboxSearchResponseAdmin } from '../types';
-import { AdminDocumentBoxesRequest, AdminDocumentBoxesResponse } from '../types/admin';
+import {
+  AdminDocumentBoxesRequest,
+  AdminDocumentBoxesResponse,
+  TenantStatsResponse,
+} from '../types/admin';
 import { DocboxClient } from './client';
 
 export class AdminService {
@@ -30,6 +34,17 @@ export class AdminService {
    */
   documentBoxes(data: AdminDocumentBoxesRequest): Promise<AdminDocumentBoxesResponse> {
     return this.client.httpPost('admin/boxes', data);
+  }
+
+  /**
+   * Query the stats of a tenant
+   *
+   * (Available as of v0.4.0)
+   *
+   * @returns The stats
+   */
+  tenantStats(): Promise<TenantStatsResponse> {
+    return this.client.httpPost('admin/tenant-stats');
   }
 
   /**
