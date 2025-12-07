@@ -592,7 +592,7 @@ export class FileService {
    * @param file_id ID of the file to query
    * @param type Type of the generated file
    * @param expires_at Time in seconds till the link expires
-   * @returns The Blob/ArrayBuffer content of the file (Blob within a browser, ArrayBuffer on node)
+   * @returns The presigned metadata to perform the presigned download
    */
   createGeneratedRawPresigned(
     scope: DocumentBoxScope,
@@ -720,7 +720,7 @@ export class FileService {
    * @param file_id ID of the file to query
    * @param type Type of the generated file
    * @param expires_at Time in seconds till the link expires
-   * @returns The Blob/ArrayBuffer content of the file (Blob within a browser, ArrayBuffer on node)
+   * @returns The text content of the generated file
    */
   async generatedTextPresigned(
     scope: DocumentBoxScope,
@@ -742,7 +742,7 @@ export class FileService {
    * @param file_id ID of the file to query
    * @param type Type of the generated file
    * @param expires_at Time in seconds till the link expires
-   * @returns The Blob/ArrayBuffer content of the file (Blob within a browser, ArrayBuffer on node)
+   * @returns The parsed JSON content of the generated file
    */
   async generatedJsonPresigned(
     scope: DocumentBoxScope,
