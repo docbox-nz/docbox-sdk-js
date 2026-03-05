@@ -7,6 +7,7 @@ import {
   EditHistoryMetadataRename,
   EditHistoryMetadataMoveToFolder,
   EditHistoryMetadataChangePinned,
+  FileId,
 } from './shared';
 import { User } from './user';
 
@@ -175,4 +176,17 @@ export interface FolderResponse {
    * The resolved folder details
    */
   children: ResolvedFolder;
+}
+
+export interface ZipFolderRequest {
+  /**
+   * Optional choose a collection of the only file IDs that should be
+   * included in the ZIP file
+   */
+  include_files?: FileId[] | null;
+
+  /**
+   * Optional choose to exclude a collection of file IDs from the download
+   */
+  exclude_files?: FileId[] | null;
 }

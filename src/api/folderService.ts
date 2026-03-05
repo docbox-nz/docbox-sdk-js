@@ -5,7 +5,10 @@ import {
   DocumentBoxScope,
   FolderId,
   FolderResponse,
+  PresignedDownloadResponse,
   UpdateFolder,
+  UploadTaskResponse,
+  ZipFolderRequest,
 } from '../types';
 import { DocboxClient } from './client';
 import { FolderNotFoundError } from './error';
@@ -96,5 +99,48 @@ export class FolderService {
    */
   editHistory(scope: DocumentBoxScope, folder_id: FolderId): Promise<DocFolderEditHistory[]> {
     return this.client.httpGet(`box/${scope}/folder/${folder_id}/edit-history`);
+  }
+
+  /**
+   * Create a zip creation task within the folder
+   *
+   * Use {@link FolderService.zip} to automatically handle the
+   * produced task to get the ZIP download link
+   *
+   * @param scope Scope the folder resides within
+   * @param folder_id ID of the folder to query
+   * @param options Options for the created ZIP
+   * @returns The task response
+   */
+  createZipTask(
+    scope: DocumentBoxScope,
+    folder_id: FolderId,
+    options: ZipFolderRequest = {},
+    abort?: AbortController
+  ): Promise<UploadTaskResponse> {
+    return this.client.httpPost(`box/${scope}/folder/${folder_id}`, options, {
+      signal: abort?.signal,
+    });
+  }
+
+  /**
+   * Create a zip file out of the folder contents
+   *
+   * This will create the zip task and wait for the task
+   * to complete
+   *
+   * @param scope Scope the folder resides within
+   * @param folder_id ID of the folder to query
+   * @param options Options for the created ZIP
+   * @returns The presigned download response for downloading the created ZIP file
+   */
+  async zip(
+    scope: DocumentBoxScope,
+    folder_id: FolderId,
+    options: ZipFolderRequest = {},
+    abort?: AbortController
+  ): Promise<PresignedDownloadResponse> {
+    const task = await this.createZipTask(scope, folder_id, options, abort);
+    return await this.client.task.finished(scope, task.task_id, 1000, abort);
   }
 }
