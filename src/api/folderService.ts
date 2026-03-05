@@ -118,7 +118,7 @@ export class FolderService {
     options: ZipFolderRequest = {},
     abort?: AbortController
   ): Promise<UploadTaskResponse> {
-    return this.client.httpPost(`box/${scope}/folder/${folder_id}`, options, {
+    return this.client.httpPost(`box/${scope}/folder/${folder_id}/zip`, options, {
       signal: abort?.signal,
     });
   }
