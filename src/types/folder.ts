@@ -8,6 +8,7 @@ import {
   EditHistoryMetadataMoveToFolder,
   EditHistoryMetadataChangePinned,
   FileId,
+  DocboxItemId,
 } from './shared';
 import { User } from './user';
 
@@ -182,11 +183,32 @@ export interface ZipFolderRequest {
   /**
    * Optional choose a collection of the only file IDs that should be
    * included in the ZIP file
+   *
+   * @deprecated
    */
   include_files?: FileId[] | null;
 
   /**
    * Optional choose to exclude a collection of file IDs from the download
+   *
+   * @deprecated
    */
   exclude_files?: FileId[] | null;
+
+  /**
+   * Optionally only include the specified items (files and folders)
+   *
+   * Inclusion is only applied to the direct descendants
+   * of the folder use exclude to exclude specific content
+   * from nested folders
+   */
+  include?: DocboxItemId[] | null;
+
+  /**
+   * Optionally exclude the specified items (files and folders)
+   * including any items that don't match the provided list of IDs
+   *
+   * Exclusion is applied deeply to nested files and folders
+   */
+  exclude?: DocboxItemId[] | null;
 }
