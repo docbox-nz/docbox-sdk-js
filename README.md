@@ -4,5 +4,4 @@
 
 This library uses axios as its transport and provides wrappers around the HTTP APIs for docbox and the required types along with helpers for performing things such as presigned file uploads.
 
-
-See [docbox](https://github.com/docbox-nz/docbox) for the docbox server repository 
+See [docbox](https://github.com/docbox-nz/docbox) for the docbox server repository
