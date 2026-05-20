@@ -4,6 +4,10 @@
   "description": "Docbox client SDK",
   "license": "MIT",
   "author": "Jacobtread",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/docbox-nz/docbox-sdk-js.git"
+  },
   "type": "module",
   "main": "./dist/index.browser.cjs",
   "types": "./dist/index.d.ts",
