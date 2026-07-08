@@ -38,11 +38,11 @@
   },
   "devDependencies": {
     "oxfmt": "^0.51.0",
-    "oxlint": "^1.66.0",
-    "rolldown": "^1.0.1"
+    "oxlint": "^1.73.0",
+    "rolldown": "^1.1.4"
   },
   "peerDependencies": {
     "axios": ">=1.0.0 <2.0.0"
   },
-  "packageManager": "pnpm@10.33.4+sha512.1c67b3b359b2d408119ba1ed289f34b8fc3c6873412bec6fd264fbdc82489e510fcbecb9ce9d22dae7f3b76269d8441046014bdca53b9979cd7a561ad631b800"
+  "packageManager": "pnpm@11.10.0+sha512.0b7f8b98060031904c017e3a41eb187a16d40eeb829b95c4f8cb03681761fc4ab53dd219115b9b447f4dce1a05a214764461e7d3703392a9f32f9511ce8c86c8"
 }
