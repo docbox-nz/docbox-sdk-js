@@ -1,6 +1,6 @@
 {
   "name": "@docbox-nz/docbox-sdk",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "Docbox client SDK",
   "license": "MIT",
   "author": "Jacobtread",
