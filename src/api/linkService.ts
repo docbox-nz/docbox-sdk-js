@@ -25,7 +25,7 @@ export class LinkService {
    * @param id ID of the link to request
    * @returns The favicon image URL
    */
-  faviconURL(scope: string, id: string) {
+  faviconURL(scope: string, id: string): string {
     return `box/${scope}/link/${id}/favicon`;
   }
 
@@ -36,7 +36,7 @@ export class LinkService {
    * @param id ID of the link to request
    * @returns The OGP image URL
    */
-  imageURL(scope: string, id: string) {
+  imageURL(scope: string, id: string): string {
     return `box/${scope}/link/${id}/image`;
   }
 

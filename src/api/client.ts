@@ -56,32 +56,32 @@ export class DocboxClient {
     this.admin = new AdminService(this);
   }
 
-  async httpGet<T = any, D = any>(url: string, config?: AxiosRequestConfig<D>) {
+  async httpGet<T = any, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<T> {
     const { data } = await this.client.get<T>(url, config);
     return data;
   }
 
-  async httpPost<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>) {
+  async httpPost<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T> {
     const { data: responseData } = await this.client.post<T>(url, data, config);
     return responseData;
   }
 
-  async httpPut<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>) {
+  async httpPut<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T> {
     const { data: responseData } = await this.client.put<T>(url, data, config);
     return responseData;
   }
 
-  async httpPatch<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>) {
+  async httpPatch<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T> {
     const { data: responseData } = await this.client.patch<T>(url, data, config);
     return responseData;
   }
 
-  async httpDelete<T = any, D = any>(url: string, config?: AxiosRequestConfig<D>) {
+  async httpDelete<T = any, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<T> {
     const { data: responseData } = await this.client.delete<T>(url, config);
     return responseData;
   }
 
-  toJSON() {
+  toJSON(): { url: string } {
     return { url: this.client.getUri() };
   }
 }

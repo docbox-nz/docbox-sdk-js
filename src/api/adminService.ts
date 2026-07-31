@@ -50,14 +50,14 @@ export class AdminService {
   /**
    * Flush the database cache
    */
-  flushDatabasePoolCache() {
+  flushDatabasePoolCache(): Promise<any> {
     return this.client.httpPost('admin/flush-db-cache');
   }
 
   /**
    * Flush the tenant cache
    */
-  flushTenantCache() {
+  flushTenantCache(): Promise<any> {
     return this.client.httpPost('admin/flush-tenant-cache');
   }
 }

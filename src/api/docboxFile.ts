@@ -1,6 +1,6 @@
 import { DocFile } from '../types/file';
 
-let FileGlobal = File;
+let FileGlobal: any = File;
 
 // Node targets don't have this available, just mock it.
 // this type should not be used in a node env

@@ -42,7 +42,7 @@ export class FileService {
    * @param id ID of the file
    * @returns The file URL
    */
-  rawURL(scope: DocumentBoxScope, id: string) {
+  rawURL(scope: DocumentBoxScope, id: string): string {
     return `box/${scope}/file/${id}/raw`;
   }
 
@@ -55,7 +55,7 @@ export class FileService {
    * @param name Name to provide the file
    * @returns The file URL
    */
-  rawNamedURL(scope: DocumentBoxScope, id: string, name: string) {
+  rawNamedURL(scope: DocumentBoxScope, id: string, name: string): string {
     return `box/${scope}/file/${id}/raw/${encodeURIComponent(name)}`;
   }
 
@@ -67,7 +67,7 @@ export class FileService {
    * @param type Type of generated file to get
    * @returns The URL to the generated file
    */
-  generatedRawURL(scope: string, id: string, type: string) {
+  generatedRawURL(scope: string, id: string, type: string): string {
     return `box/${scope}/file/${id}/generated/${type}/raw`;
   }
 
@@ -81,7 +81,7 @@ export class FileService {
    * @param name Name to provide the file
    * @returns The URL to the generated file
    */
-  generatedRawNamedURL(scope: string, id: string, type: string, name: string) {
+  generatedRawNamedURL(scope: string, id: string, type: string, name: string): string {
     return `box/${scope}/file/${id}/generated/${type}/raw/${encodeURIComponent(name)}`;
   }
 
