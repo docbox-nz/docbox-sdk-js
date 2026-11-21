@@ -39,7 +39,7 @@ export class TaskService {
     task_id: string,
     interval: number = 1000,
     abort?: AbortController
-  ) : Promise<T> {
+  ): Promise<T> {
     while (abort === undefined ? true : !abort.signal.aborted) {
       const task = await this.get(scope, task_id, abort);
 

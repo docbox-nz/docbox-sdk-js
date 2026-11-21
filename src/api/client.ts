@@ -61,17 +61,29 @@ export class DocboxClient {
     return data;
   }
 
-  async httpPost<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T> {
+  async httpPost<T = any, D = any>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig<D>
+  ): Promise<T> {
     const { data: responseData } = await this.client.post<T>(url, data, config);
     return responseData;
   }
 
-  async httpPut<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T> {
+  async httpPut<T = any, D = any>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig<D>
+  ): Promise<T> {
     const { data: responseData } = await this.client.put<T>(url, data, config);
     return responseData;
   }
 
-  async httpPatch<T = any, D = any>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<T> {
+  async httpPatch<T = any, D = any>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig<D>
+  ): Promise<T> {
     const { data: responseData } = await this.client.patch<T>(url, data, config);
     return responseData;
   }
